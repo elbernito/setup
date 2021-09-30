@@ -1,0 +1,26 @@
+FROM arm64v8/alpine
+
+RUN apk add openjdk11 maven git \
+    && java -version \
+	&& mvn -version \
+	&& git --version
+
+RUN wget https://download.jetbrains.com/teamcity/TeamCity-2021.1.3.tar.gz \
+	&& tar -xzf TeamCity-2021.1.3.tar.gz \
+    && rm TeamCity-2021.1.3.tar.gz \
+	&& mkdir /buildAgent \
+	&& mv /TeamCity/buildAgent/* /buildAgent \
+	&& rm -rf /TeamCity
+
+RUN mkdir data
+
+COPY ./start.sh ./ 
+COPY ./healthcheck.sh ./ 
+RUN rm /buildAgent/conf/buildAgent.properties
+COPY ./buildAgent.properties /buildAgent/conf/
+
+RUN chmod +x ./start.sh && chmod +x ./healthcheck.sh
+
+HEALTHCHECK --interval=30s --timeout=15s --start-period=300s CMD ./healthcheck.sh localhost 9090 401
+
+CMD ["/bin/sh", "-c", "./start.sh start"]
