@@ -11,7 +11,7 @@ Following files you find here:
         * OpenJdk 11, Maven and Git
         * Use a 'teamcity' network
       * /teamcity-agent-01
-	* Adds first agent to teamcity
+        * Adds first agent to teamcity
         * 64bit
         * Based on an alpine image
         * OpenJdk 11, Maven and Git
