@@ -10,7 +10,14 @@ Following files you find here:
         * Based on an alpine image
         * OpenJdk 11, Maven and Git
         * Use a 'teamcity' network
-      * /teamcity-agent
+      * /teamcity-agent-01
+	* Adds first agent to teamcity
+        * 64bit
+        * Based on an alpine image
+        * OpenJdk 11, Maven and Git
+        * Use a 'teamcity' network
+      * /teamcity-agent-02
+        * Adds second agent to teamcity
         * 64bit
         * Based on an alpine image
         * OpenJdk 11, Maven and Git
