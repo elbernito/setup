@@ -1,6 +1,6 @@
 FROM arm64v8/alpine
 
-RUN apk add openjdk11 maven git \
+RUN apk add openjdk11 maven git curl pkgconfig\
     && java -version \
 	&& mvn -version \
 	&& git --version

@@ -1,22 +1,26 @@
 FROM arm64v8/alpine
 
-RUN apk add openjdk11 maven git \
+RUN apk add openjdk11 maven git curl pkgconfig unzip\
     && java -version \
 	&& mvn -version \
 	&& git --version
 
-RUN wget https://download.jetbrains.com/teamcity/TeamCity-2021.1.3.tar.gz \
-	&& tar -xzf TeamCity-2021.1.3.tar.gz \
-    && rm TeamCity-2021.1.3.tar.gz \
-	&& mkdir /buildAgent \
-	&& mv /TeamCity/buildAgent/* /buildAgent \
-	&& rm -rf /TeamCity
+# RUN wget https://download.jetbrains.com/teamcity/TeamCity-2021.1.3.tar.gz \
+#	&& tar -xzf TeamCity-2021.1.3.tar.gz \
+#    && rm TeamCity-2021.1.3.tar.gz \
+#	&& mkdir /buildAgent \
+#	&& mv /TeamCity/buildAgent/* /buildAgent \
+#	&& rm -rf /TeamCity
+
+COPY ./buildAgent.zip ./
+RUN chmod 777 ./buildAgent.zip && unzip ./buildAgent.zip -d ./buildAgent && rm ./buildAgent.zip
+
 
 RUN mkdir data
 
 COPY ./start.sh ./ 
 COPY ./healthcheck.sh ./ 
-RUN rm /buildAgent/conf/buildAgent.properties
+# RUN rm /buildAgent/conf/buildAgent.properties
 COPY ./buildAgent.properties /buildAgent/conf/
 
 RUN chmod +x ./start.sh && chmod +x ./healthcheck.sh
