@@ -80,6 +80,8 @@ yum -y remove git
 yum -y remove git-*
 yum -y install https://packages.endpointdev.com/rhel/7/os/x86_64/endpoint-repo-1.10-1.x86_64.rpm
 yum -y install git
+git config --global user.name "elbernito"
+git config --global user.email "bernie@bru2ner.ch"
 git --version
 
 echo "--> Remove smb bus error"
