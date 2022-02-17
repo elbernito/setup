@@ -1,16 +1,16 @@
 echo "Startup script for centos server"
 log=startup.log
 
-echo "execution started" > $log
+echo "execution started"
 
 echo "shutdown docker"
-systemctl stop docker >> $log
+systemctl stop docker
 
 echo "mount workplace"
-mount /dev/sdb /workplace >> $log
+mount /dev/sdb /workplace
 
 echo "start docker"
-systemctl start docker >> $log
+systemctl start docker
 
 echo "start portainer"
 docker volume create portainer_data
@@ -25,7 +25,6 @@ docker run -d -p 8000:8000 -p 9000:9443 --name portainer \
 
 
 echo "all done"
-echo "all done" >> $log
 
 exit 0
 

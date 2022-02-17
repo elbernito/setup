@@ -12,16 +12,17 @@ echo "--> update centos"
 yum -y update
 
 echo "--> Install setup script"
-if service --status-all | grep -Fq 'startup'
+if service --status-all | grep -Fq 'startup.service'
 then 
 	echo "Startup script is already installed"
 else
+	echo "Install startup script"
 	cp startup.sh /root
 	cp startup.service /etc/systemd/system
 	chmod +x /root/startup.sh
+	chmod -x /etc/systemd/system/startup.service
 	systemctl daemon-reload
 	systemctl enable startup.service
-	
 fi
 
 echo "--> Create workplace"
