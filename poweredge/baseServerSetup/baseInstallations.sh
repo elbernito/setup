@@ -106,6 +106,9 @@ else
 	source /etc/profile.d/maven.sh
 fi
 
+echo "--> Copy Maven settings"
+cp settings.xml /opt/apache-maven-3.8.4/conf
+
 echo "--> Remove smb bus error"
 echo "blacklist i2c-piix4" > /etc/modprobe.d/blacklist.conf
 
