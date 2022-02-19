@@ -67,5 +67,7 @@ sudo docker run -d --name elk --restart=always -e ES_HEAP_SIZE="512m" -e LS_HEAP
 
 
 
-firewall-cmd --zone=public --add-port=5044/tcp --permanent
-firewall-cmd --reload
+sudo firewall-cmd --zone=public --add-port=5044/tcp --permanent
+sudo firewall-cmd --zone=public --add-port=5601/tcp --permanent
+sudo firewall-cmd --zone=public --add-port=9200/tcp --permanent
+sudo firewall-cmd --reload
