@@ -1,0 +1,1 @@
+sudo docker run -d --name=consul --restart=always -p 8500:8500 -p 8600:8600/udp -e CONSUL_CLIENT_INTERFACE='eth0' -e CONSUL_BIND_INTERFACE='eth0' -e CONSUL_LOCAL_CONFIG='{"datacenter":"poweredge", "server":true, "enable_debug":true}' consul/consul:1.11.3 agent -server -bootstrap-expect=6
