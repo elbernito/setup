@@ -3,8 +3,10 @@ echo "  docker script for TheCollector"
 echo " =============================================="
 
 echo "install as root"
-sudo sysctl -w vm.max_map_count=524288
-sudo sysctl -w fs.file-max=131072
+echo "in /etc/sysctl.conf"
+vm.max_map_count=524288
+fs.file-max=131072
+echo "in /etc/security/limits.conf"
 sudo ulimit -n 131072
 sudo ulimit -u 8192
 
@@ -50,7 +52,19 @@ docker run -d \
 	sonarqube
 
 echo "--> Install ELK"
-sudo docker run -d --name elk --restart=always -e ES_HEAP_SIZE="512m" -e LS_HEAP_SIZE="512m" -v /workplace/elk/kibana:/opt/kibana -v /workplace/elk/logstash:/opt/logstash -v /workplace/elk/elasticsearch/data:/var/lib/elasticsearch -v /workplace/elk/elasticsearch/plugins:/opt/elasticsearch -p 5601:5601 -p 9200:9200 -p 5044:5044 sebp/elk
+sudo rm -rf /workplace/elk/*
+sudo mkdir /workplace/elk/logs
+sudo mkdir /workplace/elk/logs/kibana
+sudo mkdir /workplace/elk/logs/logstash
+sudo mkdir /workplace/elk/logs/elasticsearch
+
+sudo chmod -R 777 /workplace/elk/logs/kibana
+sudo chmod -R 777 /workplace/elk/logs/logstash
+sudo chmod -R 777 /workplace/elk/logs/elasticsearch
+
+
+sudo docker run -d --name elk --restart=always -e ES_HEAP_SIZE="512m" -e LS_HEAP_SIZE="512m" -v /workplace/elk/logs/elasticsearch:/var/log/elasticsearch -v /workplace/elk/logs/kibana:/var/log/kibana -v /workplace/elk/logs/logstash:/var/log/logstash -v /workplace/elk/logstash/config:/opt/logstash/config -v /workplace/elk/elasticsearch/data:/var/lib/elasticsearch -p 5601:5601 -p 9200:9200 -p 5044:5044 sebp/elk:7.16.3
+
 
 
 firewall-cmd --zone=public --add-port=5044/tcp --permanent
