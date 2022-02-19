@@ -48,7 +48,7 @@ docker run -d \
 	-v /workplace/sonarqube/logs:/opt/sonarqube/logs \
 	-v /workplace/sonarqube/extensions:/opt/sonarqube/extensions \
 	-p 9020:9000 \
-	--stop-timeout 3600 \
+	--stop-timeout 60 \
 	sonarqube
 
 echo "--> Install ELK"
@@ -63,7 +63,7 @@ sudo chmod -R 777 /workplace/elk/logs/logstash
 sudo chmod -R 777 /workplace/elk/logs/elasticsearch
 
 
-sudo docker run -d --name elk --restart=always -e ES_HEAP_SIZE="512m" -e LS_HEAP_SIZE="512m" -v /workplace/elk/logs/elasticsearch:/var/log/elasticsearch -v /workplace/elk/logs/kibana:/var/log/kibana -v /workplace/elk/logs/logstash:/var/log/logstash -v /workplace/elk/logstash/config:/opt/logstash/config -v /workplace/elk/elasticsearch/data:/var/lib/elasticsearch -p 5601:5601 -p 9200:9200 -p 5044:5044 sebp/elk:7.16.3
+sudo docker run -d --name elk --restart=always -e ES_HEAP_SIZE="512m" -e LS_HEAP_SIZE="512m" -v /workplace/elk/logs/elasticsearch:/var/log/elasticsearch -v /workplace/elk/logs/kibana:/var/log/kibana -v /workplace/elk/logs/logstash:/var/log/logstash -v /workplace/elk/logstash/config:/opt/logstash/config -v /workplace/elk/elasticsearch/data:/var/lib/elasticsearch -p 5601:5601 -p 9200:9200 -p 5044:5044 --stop-timeout 180 \sebp/elk:7.16.3
 
 
 
