@@ -1,0 +1,29 @@
+## traefik.yml
+
+# Docker configuration backend
+#providers:
+#  docker:
+#    defaultRule: "Host(`{{ trimPrefix `/` .Name }}.docker.localhost`)"
+
+## STATIC CONFIGURATION
+log:
+  level: INFO
+
+api:
+  insecure: true
+  dashboard: true
+
+entryPoints:
+  web:
+    address: ":80"
+  traefik:
+    address: ":8080"
+providers:
+  docker:
+    endpoint: "unix:///var/run/docker.sock"
+    exposedByDefault: false
+    defaultRule: "Host(`{{ .Name }}.{{ index .Labels \"customLabel\"}}`)"
+  consul:
+    endpoints:
+#      rootKey: "/"
+      - "192.168.1.64:8500"
